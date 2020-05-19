@@ -12,7 +12,6 @@ class GameManager {
     private long current;
     private long delay;
     public GameManager() {
-
     }
 
     public void init() {

@@ -30,3 +30,5 @@ public class Bullet {
         return this.y;
     }
 }
+
+//change speed -> change level
