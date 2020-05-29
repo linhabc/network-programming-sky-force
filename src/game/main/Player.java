@@ -3,8 +3,10 @@ package game.main;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.Serializable;
 
-public class Player implements KeyListener {
+public class Player implements KeyListener, Serializable {
+    public int id;
     private int x;
     private int y;
     private boolean fire = true;
@@ -16,9 +18,10 @@ public class Player implements KeyListener {
     private int health;
     private int score;
 
-    public Player(int x, int y) {
+    public Player(int x, int y, int id) {
         this.x = x;
         this.y = y;
+        this.id = id;
     }
 
     public void init() {

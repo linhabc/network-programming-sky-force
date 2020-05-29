@@ -86,7 +86,8 @@ public class GameSetup implements Runnable {
 
         // draw
         g.drawImage(LoadImage.image, 50 ,50, GAME_WIDTH, GAME_HEIGHT, null);
-        manager.render(g);
+        //TODO: make manager to render
+//        manager.render(g);
         // end of draw
 
         buffer.show();

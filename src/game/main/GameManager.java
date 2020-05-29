@@ -1,11 +1,14 @@
 package game.main;
 
+import game.main.server.Server;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
 class GameManager {
-    private Player player;
+    private int numberOfPlayer;
+    public ArrayList<Player> players;
     public static ArrayList<Bullet> bullets;
     public static ArrayList<Enemy> enemies;
 
@@ -15,8 +18,16 @@ class GameManager {
     }
 
     public void init() {
-        player = new Player(GameSetup.GAME_WIDTH / 2 + 50, GameSetup.GAME_HEIGHT + 20);
-        player.init();
+        players = new ArrayList<>();
+        for(int i = 0; i< numberOfPlayer; i++){
+            int distance = (Config.GAME_WIDTH) / numberOfPlayer;
+            int position = i;
+            Player player = new Player(33 + distance / 2 + (position*distance),
+                    Config.GAME_HEIGHT + 20, Server.clients.get(i).id);
+            player.init();
+            players.add(player);
+        }
+
         bullets = new ArrayList<>();
         enemies = new ArrayList<>();
 
@@ -25,7 +36,10 @@ class GameManager {
     }
 
     public void tick() {
-        player.tick();
+        for(Player player: players){
+            player.tick();
+        }
+
         for (Bullet bullet : bullets) {
             bullet.tick();
         }
@@ -46,54 +60,54 @@ class GameManager {
             enemies.get(i).tick();
         }
     }
-
-    public void render(Graphics g) {
-        player.render(g);
-        for (Bullet bullet : bullets) {
-            bullet.render(g);
-        }
-
-        for (int i = 0; i < bullets.size(); i++) {
-            if (bullets.get(i).getY() <= 50) {
-                bullets.remove(i);
-                i--;
-            }
-        }
-
-        for (Enemy e : enemies) {
-            if (e.getX() >= 50 && e.getX() <= 450 - 25 && e.getY() <= 450 - 25 && e.getY() >= 50) {
-                e.render(g);
-            }
-        }
-
-        for (int i = 0; i < enemies.size(); i++) {
-            Enemy e = enemies.get(i);
-            if (isCollision(player, e)) {
-                enemies.remove(i);
-                i--;
-                player.setHealth(player.getHealth() - 1);
-                System.out.println(player.getHealth());
-                if (player.getHealth() <= 0) {
-                    System.out.println("Loss");
-                    enemies.clear();
-                }
-            }
-
-            for (int j = 0; j < bullets.size(); j++) {
-                Bullet b = bullets.get(j);
-                if (isCollision(e, b)) {
-                    enemies.remove(i);
-                    i--;
-                    bullets.remove(j);
-                    j--;
-                    player.incScore();
-                }
-            }
-        }
-
-        g.setColor(Color.BLUE);
-        g.drawString("Score: " + player.getScore(), 70, 500);
-    }
+//
+//    public void render(Graphics g) {
+//        player.render(g);
+//        for (Bullet bullet : bullets) {
+//            bullet.render(g);
+//        }
+//
+//        for (int i = 0; i < bullets.size(); i++) {
+//            if (bullets.get(i).getY() <= 50) {
+//                bullets.remove(i);
+//                i--;
+//            }
+//        }
+//
+//        for (Enemy e : enemies) {
+//            if (e.getX() >= 50 && e.getX() <= 450 - 25 && e.getY() <= 450 - 25 && e.getY() >= 50) {
+//                e.render(g);
+//            }
+//        }
+//
+//        for (int i = 0; i < enemies.size(); i++) {
+//            Enemy e = enemies.get(i);
+//            if (isCollision(player, e)) {
+//                enemies.remove(i);
+//                i--;
+//                player.setHealth(player.getHealth() - 1);
+//                System.out.println(player.getHealth());
+//                if (player.getHealth() <= 0) {
+//                    System.out.println("Loss");
+//                    enemies.clear();
+//                }
+//            }
+//
+//            for (int j = 0; j < bullets.size(); j++) {
+//                Bullet b = bullets.get(j);
+//                if (isCollision(e, b)) {
+//                    enemies.remove(i);
+//                    i--;
+//                    bullets.remove(j);
+//                    j--;
+//                    player.incScore();
+//                }
+//            }
+//        }
+//
+//        g.setColor(Color.BLUE);
+//        g.drawString("Score: " + player.getScore(), 70, 500);
+//    }
 
     private boolean isCollision(Enemy e, Bullet b) {
         return e.getX() < b.getX() + 6 &&
