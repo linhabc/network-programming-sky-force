@@ -10,13 +10,11 @@ import java.util.Set;
 public class Server implements Runnable{
 	private int port;
 	private ServerSocket serverSocket;
-    public static ArrayList<ClientInRoom> clients;
 	private boolean running = false;
 	private int id = 0;
 	
 	public Server(int port) {
 		super();
-		clients = new ArrayList<>(4);
 		this.port = port;
 	    try {
             serverSocket = new ServerSocket(port);

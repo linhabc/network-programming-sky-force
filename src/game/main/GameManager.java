@@ -1,5 +1,6 @@
 package game.main;
 
+import game.main.server.Room;
 import game.main.server.Server;
 
 import java.awt.*;
@@ -23,7 +24,7 @@ class GameManager {
             int distance = (Config.GAME_WIDTH) / numberOfPlayer;
             int position = i;
             Player player = new Player(33 + distance / 2 + (position*distance),
-                    Config.GAME_HEIGHT + 20, Server.clients.get(i).id);
+                    Config.GAME_HEIGHT + 20, Room.clients.get(i).id);
             player.init();
             players.add(player);
         }
