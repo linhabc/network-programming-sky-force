@@ -60,9 +60,6 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        GameSetup gameSetup = new GameSetup("Game may bay", 700, 700);
-        gameSetup.start();
         
         while (true) {
         	System.out.print("Enter y to start game, n to exit game: ");
