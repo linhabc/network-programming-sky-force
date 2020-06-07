@@ -11,8 +11,8 @@ public class GameSetup implements Runnable {
     private Thread thread;
     private boolean running;
 
-    public static final int GAME_WIDTH = 400;
-    public static final int GAME_HEIGHT = 400;
+    public static final int GAME_WIDTH = 600;
+    public static final int GAME_HEIGHT = 600;
 
     private Display display;
     private GameManager manager;
@@ -87,7 +87,7 @@ public class GameSetup implements Runnable {
         // draw
         g.drawImage(LoadImage.image, 50 ,50, GAME_WIDTH, GAME_HEIGHT, null);
         //TODO: make manager to render
-//        manager.render(g);
+        manager.render(g);
         // end of draw
 
         buffer.show();

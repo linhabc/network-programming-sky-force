@@ -54,11 +54,16 @@ public class Main {
 
         try {
             AddConnectionPacket addConnectionPacket = new AddConnectionPacket(playerName);
+            System.out.println("Sending packet");
             client.sendObject(addConnectionPacket);
+            System.out.println("Sended packet");
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+        GameSetup gameSetup = new GameSetup("Game may bay", 700, 700);
+        gameSetup.start();
+        
         while (true) {
             String command = scanner.nextLine();
             if (command.equals("exit")) {

@@ -6,7 +6,8 @@ import java.awt.event.KeyListener;
 import java.io.Serializable;
 
 public class Player implements KeyListener, Serializable {
-    public int id;
+	private static final long serialVersionUID = 1L;
+	public int id;
     private int x;
     private int y;
     private boolean fire = true;
