@@ -53,13 +53,15 @@ public class Connection implements Runnable {
 	
 	public void close() {
 		try {
-			for(Map.Entry<Integer, Connection> entry : ConnectionHandler.connections.entrySet()) {
-				Connection c = entry.getValue();
-				if (c != this) {
-					RemoveConnectionPacket removeConnectionPacket = new RemoveConnectionPacket(this.id, this.playerName);
-					c.sendObject(removeConnectionPacket);
-				}
-			}
+			if (this.playerName != null) {
+                for(Map.Entry<Integer, Connection> entry : ConnectionHandler.connections.entrySet()) {
+                    Connection c = entry.getValue();
+                    if (c.id != this.id) {
+                        RemoveConnectionPacket removeConnectionPacket = new RemoveConnectionPacket(this.id, this.playerName);
+                        c.sendObject(removeConnectionPacket);
+                    }
+                }
+            }
 			running = false;
 			in.close();
 			out.close();

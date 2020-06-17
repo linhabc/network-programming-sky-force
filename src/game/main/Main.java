@@ -5,7 +5,9 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import game.main.client.Client;
-import game.main.packet.AddConnectionPacket;
+import game.main.packet.AddConnectionRequestPacket;
+import game.main.packet.StartGameRequestPacket;
+import game.main.server.Room;
 import game.main.server.Server;
 
 
@@ -28,7 +30,7 @@ public class Main {
                     break;
                 }
                 case 2: {
-                    joinGame();
+                    joinGame(false);
                     break;
                 }
                 case 3: {
@@ -45,7 +47,7 @@ public class Main {
         }
     }
 
-    private static void joinGame() {
+    private static void joinGame(boolean isMaster) {
         Scanner scanner = new Scanner(System.in);
         String playerName = enterPlayerName(scanner);
         Client client = new Client(Config.HOST, Config.PORT);
@@ -53,22 +55,25 @@ public class Main {
         client.connect();
 
         try {
-            AddConnectionPacket addConnectionPacket = new AddConnectionPacket(playerName);
-            System.out.println("Sending packet");
-            client.sendObject(addConnectionPacket);
-            System.out.println("Sended packet");
+
+            AddConnectionRequestPacket addConnectionRequestPacket = new AddConnectionRequestPacket(playerName, isMaster);
+            client.sendObject(addConnectionRequestPacket);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        GameSetup gameSetup = new GameSetup("Game may bay", 700, 700);
-        gameSetup.start();
         
         while (true) {
+        	System.out.print("Enter y to start game, n to exit game: ");
             String command = scanner.nextLine();
-            if (command.equals("exit")) {
+            if (command.equals("x")) {
                 client.close();
                 break;
+            } else if (command.equals("y")) {
+//            	GameSetup game = new GameSetup("SkyForce Game", 500, 600);
+//              game.start();
+            	int level = 1;
+            	StartGameRequestPacket startGameRequestPacket = new StartGameRequestPacket(level);
+            	client.sendObject(startGameRequestPacket);
             }
         }
     }
@@ -94,10 +99,10 @@ public class Main {
     }
 
     private static void createNewGame() {
-        Server server = new Server(Config.PORT);
-        server.start();
+        Room room = new Room(Config.PORT);
+        room.start();
 
-        joinGame();
+        joinGame(true);
     }
 
     private static void printMenu() {
