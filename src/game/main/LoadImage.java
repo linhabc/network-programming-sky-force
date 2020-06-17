@@ -13,7 +13,7 @@ public class LoadImage {
        image = imageLoader("../resources/whte.png");
        entities = imageLoader("../resources/airplane.png");
        enemy = entities.getSubimage(0, 0,85, 90);
-       player = entities.getSubimage(85, 0, 95, 90);
+       player = entities.getSubimage(5, 10, 290, 240);
     }
 
     private static BufferedImage imageLoader(String path) {

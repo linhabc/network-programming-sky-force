@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import game.main.client.Client;
 import game.main.packet.AddConnectionRequestPacket;
+import game.main.packet.StartGameRequestPacket;
 import game.main.server.Room;
 import game.main.server.Server;
 
@@ -68,8 +69,7 @@ public class Main {
                 client.close();
                 break;
             } else if (command.equals("y")) {
-            	GameSetup game = new GameSetup("SkyForce Game", 500, 600);
-                game.start();
+            	client.sendObject(new StartGameRequestPacket(1));
             }
         }
     }

@@ -1,10 +1,16 @@
 package game.main.client;
 
+import game.main.GameManager;
+import game.main.GameSetup;
 import game.main.packet.AddConnectionRequestPacket;
 import game.main.packet.AddConnectionResponsePacket;
-import game.main.packet.AddPositionPlayerPacket;
+//import game.main.packet.AddPositionPlayerPacket;
 import game.main.packet.RemoveConnectionPacket;
+import game.main.packet.StartGameRequestPacket;
+import game.main.packet.StartGameResponsePacket;
+import game.main.packet.UpdateIngameInfoPacket;
 import game.main.packet.UpdateRoomInfoPacket;
+import game.main.server.Room;
 
 public class EventListener {
 	
@@ -23,12 +29,12 @@ public class EventListener {
             UpdateRoomInfoPacket updateRoomInfoPacket = (UpdateRoomInfoPacket) p;
             System.out.println("Room Size: " + updateRoomInfoPacket.clients.size());
             handleUpdateRoomInfoPacket(updateRoomInfoPacket, client);
+        } else if (p instanceof StartGameResponsePacket) {
+        	GameSetup game = new GameSetup("SkyForce Game", 800, 800, Room.clients.size());
+            game.start();
+        } else if (p instanceof UpdateIngameInfoPacket) {
+        	GameManager.onUpdateIngameInfoEvent((UpdateIngameInfoPacket)p);
         }
-		else if(p instanceof AddPositionPlayerPacket) {
-			AddPositionPlayerPacket packet = (AddPositionPlayerPacket) p;
-			System.out.println("Player(x, y): (" + packet.x + ", " + packet.y);
-			
-		}
 	}
 	
 	

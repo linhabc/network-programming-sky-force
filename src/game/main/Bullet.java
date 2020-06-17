@@ -1,8 +1,9 @@
 package game.main;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class Bullet {
+public class Bullet implements Serializable {
     private int x;
     private int y;
     private int speed;

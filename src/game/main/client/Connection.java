@@ -1,6 +1,6 @@
 package game.main.client;
 
-public class Connection{
+public class Connection {
 	public int id;
 
 	public String playerName;
