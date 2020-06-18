@@ -9,6 +9,7 @@ import game.main.packet.AddConnectionResponsePacket;
 import game.main.packet.RemoveConnectionPacket;
 import game.main.packet.StartGameRequestPacket;
 import game.main.packet.StartGameResponsePacket;
+import game.main.packet.TickRequestPacket;
 import game.main.packet.UpdateIngameInfoPacket;
 
 import java.util.ArrayList;
@@ -57,6 +58,9 @@ public class EventListener {
 			UpdateIngameInfoPacket updateIngameInfopacket = (UpdateIngameInfoPacket) p;
         	GameManager.onUpdateIngameInfoEvent(updateIngameInfopacket);
         }
+		else if(p instanceof TickRequestPacket) {
+			
+		}
 		
 	}
 	

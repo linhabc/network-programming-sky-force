@@ -12,8 +12,8 @@ import game.main.server.Room;
 
 public class GameManager {
 	
-    private int numberOfPlayer;
-    private int connectionId;
+    public static int numberOfPlayer;
+    private static int connectionId;
     
     
     public static ArrayList<Player> players = new ArrayList<Player>();
@@ -41,17 +41,17 @@ public class GameManager {
 
     public void init() {
 //      players = new ArrayList<>();
-        for(int i = 0; i < numberOfPlayer; i++){
-        	System.out.println("i = " + i);
-            int distance = (Config.GAME_WIDTH) / numberOfPlayer;
-            int position = i;
-            System.out.println(numberOfPlayer);
-            Player player = new Player(33 + distance / 2 + (position*distance),
-                    Config.GAME_HEIGHT + 20, players.get(i).getId(), i);
-            System.out.println("Player: " + player);
-            player.init();
-            players.add(player);
-        }
+//        for(int i = 0; i < numberOfPlayer; i++){
+//        	System.out.println("i = " + i);
+//            int distance = (Config.GAME_WIDTH) / numberOfPlayer;
+//            int position = i;
+//            System.out.println(numberOfPlayer);
+//            Player player = new Player(33 + distance / 2 + (position*distance),
+//                    Config.GAME_HEIGHT + 20, players.get(i).getId(), i);
+//            System.out.println("Player: " + player);
+//            player.init();
+//            players.add(player);
+//        }
 
 //        bullets = new ArrayList<>();
 //        enemies = new ArrayList<>();
@@ -189,7 +189,6 @@ public class GameManager {
       System.out.println(String.format("IngameScreen - receive update game info event: %d players - %d bullets - %d enemies", event.playerInGames.size(), event.bullets.size(), event.enemies.size()));
 
       GameManager.players.clear();
-      System.out.println(GameManager.bullets);
       GameManager.bullets.clear();
       GameManager.enemies.clear();
 

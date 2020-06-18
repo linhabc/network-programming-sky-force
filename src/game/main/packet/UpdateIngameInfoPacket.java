@@ -13,13 +13,16 @@ public class UpdateIngameInfoPacket implements Serializable {
 	
 	public ArrayList<Player> playerInGames;
 	
+	public int numberOfPlayers;
+	
     public ArrayList<Bullet> bullets;
     
     public ArrayList<Enemy> enemies;
     
 
-    public UpdateIngameInfoPacket(ArrayList<Player> playerInGames, ArrayList<Bullet> bullets, ArrayList<Enemy> enemies) {
+    public UpdateIngameInfoPacket(ArrayList<Player> playerInGames, int numberOfPlayers, ArrayList<Bullet> bullets, ArrayList<Enemy> enemies) {
         this.playerInGames = new ArrayList<>();
+        this.numberOfPlayers = numberOfPlayers;
         this.bullets = new ArrayList<>();
         this.enemies = new ArrayList<>();
 

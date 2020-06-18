@@ -3,20 +3,23 @@ package game.main;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.util.ArrayList;
 import java.util.Map;
 
+import game.main.client.Client;
+import game.main.packet.TickRequestPacket;
 import game.main.packet.UpdateIngameInfoPacket;
 import game.main.server.Connection;
 import game.main.server.ConnectionHandler;
 
 public class GameSetup implements Runnable {
 	
-	private int numberOfPlayer;
+	private ArrayList<Player> players = new ArrayList<Player>();
 	
     private String title;
     private int width;
     private int height;
-    private int id;
+    private Client client;
     
     private Thread thread;
     private boolean running;
@@ -29,18 +32,18 @@ public class GameSetup implements Runnable {
     private BufferStrategy buffer;
     private Graphics g;
 
-    public GameSetup(String title, int width, int height, int numberOfPlayer, int id) {
+    public GameSetup(String title, int width, int height, ArrayList<Player> players, Client client) {
         this.title = title;
         this.width = width;
         this.height = height;
-        this.numberOfPlayer = numberOfPlayer;
-        this.id = id;
+        this.players.addAll(players);
+        this.client = client;
     }
 
     public void run() {
         LoadImage.init();
         display = new Display(title, width, height);
-        manager = new GameManager(this.numberOfPlayer);
+        manager = new GameManager(this.players.size());
 
         manager.init();
 
@@ -53,6 +56,9 @@ public class GameSetup implements Runnable {
             delta = delta + (System.nanoTime() - current) / timePerTick;
             current = System.nanoTime();
             if (delta >= 1) {
+            	TickRequestPacket tickRequestPacket = new TickRequestPacket();
+            	client.sendObject(tickRequestPacket);
+            	
                 tick();
                 render();
                 delta--;
@@ -89,12 +95,18 @@ public class GameSetup implements Runnable {
     }
     
     private void sendNewIngameStateToClients() {
-        UpdateIngameInfoPacket updateIngameInfoPacket = new UpdateIngameInfoPacket(GameManager.players,
+        UpdateIngameInfoPacket updateIngameInfoPacket = new UpdateIngameInfoPacket(
+        		GameManager.players,
+        		GameManager.numberOfPlayer,
                 GameManager.bullets,
                 GameManager.enemies);
         
         System.out.println(updateIngameInfoPacket);
-
+        
+        System.out.println("Number of players: " + GameManager.numberOfPlayer);
+        
+        System.out.println("Connection entry set: " + ConnectionHandler.connections.entrySet());
+        
         for(Map.Entry<Integer, Connection> entry : ConnectionHandler.connections.entrySet()) {
             Connection c = entry.getValue();
             c.sendObject(updateIngameInfoPacket);
