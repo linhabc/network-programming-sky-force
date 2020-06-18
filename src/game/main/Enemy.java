@@ -1,8 +1,9 @@
 package game.main;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class Enemy {
+public class Enemy implements Serializable {
     private int x;
     private int y;
 

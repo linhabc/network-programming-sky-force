@@ -1,18 +1,19 @@
 package game.main.packet;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+
+import game.main.Player;
 
 public class StartGameResponsePacket implements Serializable {
 	
     private static final long serialVersionUID = 1L;
 
-    public String title;
-    public int width;
-    public int height;
+    public ArrayList<Player> playerInGames;
 
-    public StartGameResponsePacket(String title, int width, int height) {
-    	this.title = title;
-        this.width = width;
-        this.height = height;
+    public StartGameResponsePacket(ArrayList<Player> playerInGames) {
+        this.playerInGames = new ArrayList<>();
+        this.playerInGames.addAll(playerInGames);
     }
+    
 }

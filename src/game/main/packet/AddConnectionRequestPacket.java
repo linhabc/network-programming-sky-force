@@ -10,6 +10,8 @@ public class AddConnectionRequestPacket implements Serializable{
 
 	public String playerName;
 
+    public boolean isMaster;
+
 	public AddConnectionRequestPacket() {
 	}
 
@@ -21,4 +23,9 @@ public class AddConnectionRequestPacket implements Serializable{
 	public AddConnectionRequestPacket(String playerName) {
 		this.playerName = playerName;
 	}
+	
+    public AddConnectionRequestPacket(String playerName, boolean isMaster) {
+        this.playerName = playerName;
+        this.isMaster = isMaster;
+    }
 }

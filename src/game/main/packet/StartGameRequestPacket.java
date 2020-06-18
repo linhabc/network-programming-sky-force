@@ -14,4 +14,5 @@ public class StartGameRequestPacket implements Serializable {
     public StartGameRequestPacket(int level) {
         this.level = level;
     }
+
 }

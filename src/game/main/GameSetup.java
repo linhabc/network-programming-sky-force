@@ -3,11 +3,21 @@ package game.main;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.util.Map;
+
+import game.main.packet.UpdateIngameInfoPacket;
+import game.main.server.Connection;
+import game.main.server.ConnectionHandler;
 
 public class GameSetup implements Runnable {
+	
+	private int numberOfPlayer;
+	
     private String title;
     private int width;
     private int height;
+    private int id;
+    
     private Thread thread;
     private boolean running;
 
@@ -19,16 +29,18 @@ public class GameSetup implements Runnable {
     private BufferStrategy buffer;
     private Graphics g;
 
-    public GameSetup(String title, int width, int height) {
+    public GameSetup(String title, int width, int height, int numberOfPlayer, int id) {
         this.title = title;
         this.width = width;
         this.height = height;
+        this.numberOfPlayer = numberOfPlayer;
+        this.id = id;
     }
 
     public void run() {
         LoadImage.init();
         display = new Display(title, width, height);
-        manager = new GameManager();
+        manager = new GameManager(this.numberOfPlayer);
 
         manager.init();
 
@@ -73,6 +85,18 @@ public class GameSetup implements Runnable {
 
     public void tick() {
         manager.tick();
+        sendNewIngameStateToClients();
+    }
+    
+    private void sendNewIngameStateToClients() {
+        UpdateIngameInfoPacket updateIngameInfoPacket = new UpdateIngameInfoPacket(manager.players,
+                GameManager.bullets,
+                GameManager.enemies);
+
+        for(Map.Entry<Integer, Connection> entry : ConnectionHandler.connections.entrySet()) {
+            Connection c = entry.getValue();
+            c.sendObject(updateIngameInfoPacket);
+        }
     }
 
     public void render() {
@@ -81,14 +105,13 @@ public class GameSetup implements Runnable {
             display.getCanvas().createBufferStrategy(3);
             return;
         }
+        
         g = buffer.getDrawGraphics();
         g.clearRect(0,0,width, height);
 
-        // draw
         g.drawImage(LoadImage.image, 50 ,50, GAME_WIDTH, GAME_HEIGHT, null);
-        //TODO: make manager to render
-//        manager.render(g);
-        // end of draw
+        
+        manager.render(g);
 
         buffer.show();
         g.dispose();

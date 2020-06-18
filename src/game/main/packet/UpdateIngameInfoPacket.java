@@ -8,9 +8,15 @@ import game.main.Enemy;
 import game.main.Player;
 
 public class UpdateIngameInfoPacket implements Serializable {
-    public ArrayList<Player> playerInGames;
+	
+	private static final long serialVersionUID = 1L;
+	
+	public ArrayList<Player> playerInGames;
+	
     public ArrayList<Bullet> bullets;
+    
     public ArrayList<Enemy> enemies;
+    
 
     public UpdateIngameInfoPacket(ArrayList<Player> playerInGames, ArrayList<Bullet> bullets, ArrayList<Enemy> enemies) {
         this.playerInGames = new ArrayList<>();

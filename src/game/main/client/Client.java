@@ -18,6 +18,8 @@ public class Client implements Runnable{
 
 	private int id;
 	public String playerName;
+	public int x;
+	public int y;
 
 	private boolean running = false;
 	private EventListener listener;
@@ -57,8 +59,22 @@ public class Client implements Runnable{
 
 	public void sendObject(Object packet) {
 		try {
+//			System.out.println(packet);
 			out.writeObject(packet);
 		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void receiveObject(Object packet) {
+		try {
+			System.out.println(packet);
+			in.readObject();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

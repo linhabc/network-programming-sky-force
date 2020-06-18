@@ -6,7 +6,8 @@ import java.awt.event.KeyListener;
 import java.io.Serializable;
 
 public class Player implements KeyListener, Serializable {
-    public int id;
+	private static final long serialVersionUID = 1L;
+	public int id;
     private int x;
     private int y;
     private boolean fire = true;
@@ -17,11 +18,15 @@ public class Player implements KeyListener, Serializable {
     private long delay;
     private int health;
     private int score;
+    
+    private int position;
 
-    public Player(int x, int y, int id) {
+
+    public Player(int x, int y, int id, int position) {
         this.x = x;
         this.y = y;
         this.id = id;
+        this.position = position;
     }
 
     public void init() {
@@ -75,9 +80,9 @@ public class Player implements KeyListener, Serializable {
         if (keycode == KeyEvent.VK_RIGHT) {
             right = true;
         }
-//        if (keycode == KeyEvent.VK_SPACE) {
-//            fire = true;
-//        }
+        if (keycode == KeyEvent.VK_SPACE) {
+            fire = true;
+        }
     }
 
     @Override
@@ -89,9 +94,9 @@ public class Player implements KeyListener, Serializable {
         if (keycode == KeyEvent.VK_RIGHT) {
             right = false;
         }
-//        if (keycode == KeyEvent.VK_SPACE) {
-//            fire = false;
-//        }
+        if (keycode == KeyEvent.VK_SPACE) {
+            fire = false;
+        }
     }
 
     public int getX() {
@@ -114,6 +119,10 @@ public class Player implements KeyListener, Serializable {
         return this.score;
     }
 
+    public int getPosition() {
+        return this.position;
+    }
+    
     public void incScore() {
         this.score = this.score + 1;
     }
