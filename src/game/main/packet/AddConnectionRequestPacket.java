@@ -2,7 +2,7 @@ package game.main.packet;
 
 import java.io.Serializable;
 
-public class AddConnectionPacket implements Serializable{
+public class AddConnectionRequestPacket implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
@@ -10,15 +10,15 @@ public class AddConnectionPacket implements Serializable{
 
 	public String playerName;
 
-	public AddConnectionPacket() {
+	public AddConnectionRequestPacket() {
 	}
 
-	public AddConnectionPacket(int id, String playerName) {
+	public AddConnectionRequestPacket(int id, String playerName) {
 		this.id = id;
 		this.playerName = playerName;
 	}
 
-	public AddConnectionPacket(String playerName) {
+	public AddConnectionRequestPacket(String playerName) {
 		this.playerName = playerName;
 	}
 }

@@ -5,7 +5,8 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import game.main.client.Client;
-import game.main.packet.AddConnectionPacket;
+import game.main.packet.AddConnectionRequestPacket;
+import game.main.packet.StartGameRequestPacket;
 import game.main.server.Server;
 
 
@@ -53,17 +54,21 @@ public class Main {
         client.connect();
 
         try {
-            AddConnectionPacket addConnectionPacket = new AddConnectionPacket(playerName);
+            AddConnectionRequestPacket addConnectionPacket = new AddConnectionRequestPacket(playerName);
             client.sendObject(addConnectionPacket);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         while (true) {
+        	System.out.print("Enter y to start game, x to exit game: ");
             String command = scanner.nextLine();
-            if (command.equals("exit")) {
+            if (command.equals("x")) {
                 client.close();
                 break;
+            } else if (command.equals("y")) {
+            	StartGameRequestPacket startGameRequestPacket = new StartGameRequestPacket(1);
+            	client.sendObject(startGameRequestPacket);
             }
         }
     }

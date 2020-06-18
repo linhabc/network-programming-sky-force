@@ -1,35 +1,24 @@
 package game.main.server;
 
-import game.main.packet.AddConnectionPacket;
+import game.main.Player;
+import game.main.packet.AddConnectionRequestPacket;
 import game.main.packet.AddConnectionResponsePacket;
 import game.main.packet.RemoveConnectionPacket;
+import game.main.packet.StartGameRequestPacket;
+import game.main.packet.StartGameResponsePacket;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public class EventListener {
 
 	public void received(Object p, Connection connection) {
-		if (p instanceof AddConnectionPacket) {
+		if (p instanceof AddConnectionRequestPacket) {
 			if (ConnectionHandler.connections.size() <= ConnectionHandler.connections.size()) {
-				AddConnectionPacket addConnectionPacket = (AddConnectionPacket) p;
-				addConnectionPacket.id = connection.id;
-				connection.playerName = addConnectionPacket.playerName;
-				for(Map.Entry<Integer, Connection> entry : ConnectionHandler.connections.entrySet()) {
-					Connection c = entry.getValue();
-					if (c != connection) {
-						c.sendObject(addConnectionPacket);
-					} else {
-                        AddConnectionResponsePacket addConnectionResponsePacket = new AddConnectionResponsePacket(
-                                connection.id,
-                                true,
-                                addConnectionPacket.playerName,
-                                "Connect successfully to server!");
-
-                        c.sendObject(addConnectionResponsePacket);
-                    }
-				}
-				System.out.println("Client " + addConnectionPacket.id + " with name " + addConnectionPacket.playerName + " is connected!");
-			} else {
+				AddConnectionRequestPacket addConnectionRequestPacket = (AddConnectionRequestPacket) p;
+				ConnectionHandler.addConnection(addConnectionRequestPacket, connection);
+				} 
+			else {
                 AddConnectionResponsePacket addConnectionResponsePacket = new AddConnectionResponsePacket(
                         -1,
                         false,
@@ -39,7 +28,9 @@ public class EventListener {
                 connection.close();
             }
 
-		} else if (p instanceof RemoveConnectionPacket) {
+		} 
+		
+		else if (p instanceof RemoveConnectionPacket) {
 			RemoveConnectionPacket packet = (RemoveConnectionPacket) p;
 			System.out.println("Client: " + packet.id + " with name " + packet.playerName + " has disconnected");
 			// close connection
@@ -49,6 +40,12 @@ public class EventListener {
 				c.sendObject(packet);
 			}
 		}
+		
+		else if(p instanceof StartGameRequestPacket) {
+			StartGameRequestPacket startGameRequestPacket = (StartGameRequestPacket) p;
+			ConnectionHandler.startGame();
+		}
+		
 	}
 	
 }
