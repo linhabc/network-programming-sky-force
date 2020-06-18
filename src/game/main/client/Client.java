@@ -91,6 +91,7 @@ public class Client implements Runnable{
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 				} catch (SocketException e) {
+					e.printStackTrace();
 					close();
 				}
 			}

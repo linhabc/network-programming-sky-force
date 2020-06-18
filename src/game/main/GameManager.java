@@ -11,33 +11,50 @@ import game.main.packet.UpdateIngameInfoPacket;
 import game.main.server.Room;
 
 public class GameManager {
+	
     private int numberOfPlayer;
-    public static ArrayList<Player> players;
-    public static ArrayList<Bullet> bullets;
-    public static ArrayList<Enemy> enemies;
+    private int connectionId;
+    
+    
+    public static ArrayList<Player> players = new ArrayList<Player>();
+    public static ArrayList<Bullet> bullets = new ArrayList<Bullet>();
+    public static ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 
     private long current;
     private long delay;
     
+
+    public GameManager(int numOfPlayer) {
+    	this.numberOfPlayer = numOfPlayer;
+    }
+    
     public GameManager(int numOfPlayer, int connectionId) {
     	this.numberOfPlayer = numOfPlayer;
     }
+    public GameManager(int numOfPlayer, int connectionId, ArrayList<Player> players, ArrayList<Bullet> bullets, ArrayList<Enemy> enemies) {
+    	this.numberOfPlayer = numOfPlayer;
+    	this.connectionId = connectionId;
+    	players.addAll(players);
+    	bullets.addAll(bullets);
+    	enemies.addAll(enemies);
+    }
 
     public void init() {
-        players = new ArrayList<>();
-        for(int i = 0; i< numberOfPlayer; i++){
+//      players = new ArrayList<>();
+        for(int i = 0; i < numberOfPlayer; i++){
+        	System.out.println("i = " + i);
             int distance = (Config.GAME_WIDTH) / numberOfPlayer;
             int position = i;
             System.out.println(numberOfPlayer);
             Player player = new Player(33 + distance / 2 + (position*distance),
-                    Config.GAME_HEIGHT + 20, Room.clients.get(i).id, i);
+                    Config.GAME_HEIGHT + 20, players.get(i).getId(), i);
             System.out.println("Player: " + player);
             player.init();
             players.add(player);
         }
 
-        bullets = new ArrayList<>();
-        enemies = new ArrayList<>();
+//        bullets = new ArrayList<>();
+//        enemies = new ArrayList<>();
 
         current = System.nanoTime();
         delay = 800;
@@ -172,6 +189,7 @@ public class GameManager {
       System.out.println(String.format("IngameScreen - receive update game info event: %d players - %d bullets - %d enemies", event.playerInGames.size(), event.bullets.size(), event.enemies.size()));
 
       GameManager.players.clear();
+      System.out.println(GameManager.bullets);
       GameManager.bullets.clear();
       GameManager.enemies.clear();
 

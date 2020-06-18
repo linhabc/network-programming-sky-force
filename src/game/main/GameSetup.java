@@ -89,9 +89,11 @@ public class GameSetup implements Runnable {
     }
     
     private void sendNewIngameStateToClients() {
-        UpdateIngameInfoPacket updateIngameInfoPacket = new UpdateIngameInfoPacket(manager.players,
+        UpdateIngameInfoPacket updateIngameInfoPacket = new UpdateIngameInfoPacket(GameManager.players,
                 GameManager.bullets,
                 GameManager.enemies);
+        
+        System.out.println(updateIngameInfoPacket);
 
         for(Map.Entry<Integer, Connection> entry : ConnectionHandler.connections.entrySet()) {
             Connection c = entry.getValue();

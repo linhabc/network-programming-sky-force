@@ -1,6 +1,7 @@
 package game.main.server;
 
 import game.main.Config;
+import game.main.GameManager;
 import game.main.Player;
 import game.main.packet.AddConnectionRequestPacket;
 import game.main.packet.AddConnectionResponsePacket;
@@ -8,6 +9,7 @@ import game.main.packet.AddConnectionResponsePacket;
 import game.main.packet.RemoveConnectionPacket;
 import game.main.packet.StartGameRequestPacket;
 import game.main.packet.StartGameResponsePacket;
+import game.main.packet.UpdateIngameInfoPacket;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -51,6 +53,10 @@ public class EventListener {
                 c.sendObject(new StartGameResponsePacket(playerInGames));
             }
 		}
+		else if (p instanceof UpdateIngameInfoPacket) {
+			UpdateIngameInfoPacket updateIngameInfopacket = (UpdateIngameInfoPacket) p;
+        	GameManager.onUpdateIngameInfoEvent(updateIngameInfopacket);
+        }
 		
 	}
 	

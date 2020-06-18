@@ -98,6 +98,10 @@ public class Player implements KeyListener, Serializable {
             fire = false;
         }
     }
+    
+    public int getId() {
+        return this.id;
+    }
 
     public int getX() {
         return this.x;

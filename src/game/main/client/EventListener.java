@@ -36,9 +36,13 @@ public class EventListener {
 		
 		else if (p instanceof StartGameResponsePacket) {
 			StartGameResponsePacket startGameResponsePacket = (StartGameResponsePacket) p;
+			System.out.println(startGameResponsePacket.playerInGames);
+			GameManager.players.addAll(startGameResponsePacket.playerInGames);
+			
 			System.out.println(startGameResponsePacket.playerInGames.size());
         	GameSetup game = new GameSetup("SkyForce Game", 800, 800, startGameResponsePacket.playerInGames.size(), client.getId());
             game.start();
+            
         } 
 		
 		else if (p instanceof UpdateIngameInfoPacket) {
